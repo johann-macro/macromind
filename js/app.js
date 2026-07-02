@@ -52,7 +52,7 @@ window.MM = window.MM || {};
     document.getElementById('app').className = 'app no-nav';
     document.getElementById('app').innerHTML =
       '<div class="auth-wrap" style="text-align:center">' +
-      '<div class="auth-logo">🧠</div>' +
+      '<div class="auth-logo">' + MM.ui.logoMark('logo-lg') + '</div>' +
       '<div class="auth-title">MacroMind</div>' +
       '<div class="auth-sub" style="margin-top:18px">' + MM.t('auth.splash') + '</div>' +
       '</div>';

@@ -15,6 +15,19 @@ window.MM = window.MM || {};
   const ui = {};
   MM.ui = ui;
 
+  /** Inline-Logo (aufsteigender Graph, Cyan→Indigo) – dasselbe Motiv wie das
+      App-Icon, aber ohne Text/Hintergrund für die Verwendung in der App. */
+  ui.logoMark = function (cls) {
+    return '<svg class="mm-logo ' + (cls || '') + '" viewBox="0 0 120 84" ' +
+      'xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
+      '<defs><linearGradient id="mmLogoGrad" x1="0" y1="1" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/>' +
+      '</linearGradient></defs>' +
+      '<polyline points="8,70 36,40 54,52 82,16 112,28" fill="none" ' +
+      'stroke="url(#mmLogoGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="82" cy="16" r="7.5" fill="#22d3ee"/></svg>';
+  };
+
   /** Seite rendern; nav = Bottom-Navigation anzeigen */
   ui.mount = function (html, opts) {
     const app = document.getElementById('app');
@@ -26,7 +39,7 @@ window.MM = window.MM || {};
 
   ui.topbar = function () {
     return '<div class="topbar">' +
-      '<div class="brand">MacroMind</div>' +
+      '<div class="brand">' + ui.logoMark('brand-mark') + '<span class="brand-text">MacroMind</span></div>' +
       '<div class="topbar-actions">' +
       '<button class="icon-btn" data-go="profile" aria-label="' + t('nav.profile') + '">👤</button>' +
       '<button class="icon-btn" data-go="settings" aria-label="' + t('set.title') + '">⚙️</button>' +

@@ -14,7 +14,7 @@ window.MM = window.MM || {};
   MM.views.auth = function () {
     ui.mount(
       '<div class="auth-wrap">' +
-      '<div class="auth-logo">🧠</div>' +
+      '<div class="auth-logo">' + ui.logoMark('logo-lg') + '</div>' +
       '<div class="auth-title">MacroMind</div>' +
       '<div class="auth-sub">' + t('auth.sub') + '</div>' +
       '<button class="btn btn-primary" id="btn-register">' + t('auth.register') + '</button>' +

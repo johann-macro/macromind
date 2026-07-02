@@ -85,13 +85,18 @@ input, select { font-family: var(--font); }
   position: sticky; top: 0; z-index: 20;
   background: linear-gradient(to bottom, var(--bg) 75%, transparent);
 }
-.brand {
+.brand { display: flex; align-items: center; gap: 8px; }
+.brand-text {
   font-weight: 800; font-size: 1.25rem; letter-spacing: 0.02em;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
   -webkit-background-clip: text; background-clip: text; color: transparent;
   text-shadow: none;
   filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.35));
 }
+/* Inline-Logo (Graph-Mark) */
+.mm-logo { display: block; width: auto; }
+.brand-mark { height: 22px; filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.45)); }
+.logo-lg { width: 104px; margin: 0 auto; filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.45)); }
 .topbar-actions { display: flex; gap: 8px; }
 .icon-btn {
   width: 42px; height: 42px; border-radius: 50%;
