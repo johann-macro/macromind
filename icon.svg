@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1420"/>
+      <stop offset="1" stop-color="#141b2e"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <polyline points="20,92 44,66 62,78 84,44 108,56" fill="none" stroke="url(#line)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="84" cy="44" r="7" fill="#22d3ee"/>
+  <text x="64" y="119" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="800" fill="#8b93a7">MACROMIND</text>
+</svg>

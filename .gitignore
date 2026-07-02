@@ -1,0 +1,21 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# Logs / temporär
+*.log
+tmp/
+scratchpad/
+
+# Claude-Projektlokales (nicht Teil der App)
+.claude/settings.local.json
+
+# Node (falls später mal genutzt)
+node_modules/
+
+# Projektfremde Dateien, die zufällig im Ordner liegen (nicht Teil der App)
+youtube-dl/
