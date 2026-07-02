@@ -1,8 +1,10 @@
 /* ============================================================
    MacroMind – ui-home.js
-   Startseite: 3 Level-Kacheln mit Tagesfortschritt, Resume-
-   Hinweise (Vervollständigungsanzeige, KEIN Score!), Wissens-
-   Check und Challenge-Code-Einstieg.
+   Startseite: zentrierter Kopf (Name, schmaler Trennstrich,
+   Rang-Titel im Rang-Farbstil), 3 Level-Kacheln mit farbiger
+   Umrandung und Tagesfortschritt, Resume-Hinweise
+   (Vervollständigungsanzeige, KEIN Score!), Wissens-Check und
+   Challenge-Code-Einstieg.
    ============================================================ */
 window.MM = window.MM || {};
 
@@ -12,6 +14,9 @@ window.MM = window.MM || {};
   const t = (k, p) => MM.t(k, p);
   const ui = MM.ui;
 
+  // „Hallo," nur beim ersten Aufruf der Startseite in dieser Sitzung
+  let greeted = false;
+
   MM.views.home = function () {
     const data = MM.Store.data;
     const stats = MM.engine.computeStats(data);
@@ -19,13 +24,16 @@ window.MM = window.MM || {};
 
     let html = ui.topbar() + '<div class="page">';
 
-    // Begrüßung + Chips
-    html += '<div class="hello-row"><div class="hello-name">' + t('home.hello') + ', ' + U.esc(data.name) + '</div></div>';
-    html += '<div class="chips">' + ui.rankBadge(rank);
-    if (stats.dayStreak > 0) {
-      html += '<span class="chip"><span class="chip-ico">🔥</span>' + t('home.dayStreak', { n: stats.dayStreak }) + '</span>';
-    }
-    html += '</div>';
+    // Zentrierter Kopf: Name, Trennstrich (Namensfarbe), Rang-Titel im Rang-Stil
+    const nameLine = (greeted ? '' : t('home.hello') + ', ') + data.name;
+    greeted = true;
+    html += '<div class="home-head">' +
+      '<div class="home-name">' + U.esc(nameLine) + '</div>' +
+      '<div class="home-title-wrap"><span class="home-rank-title ' + rank.cls + '">' + U.esc(rank.name) + '</span></div>' +
+      (stats.dayStreak > 0
+        ? '<span class="chip home-streak"><span class="chip-ico">🔥</span>' + t('home.dayStreak', { n: stats.dayStreak }) + '</span>'
+        : '') +
+      '</div>';
 
     // Laufende Sonder-Runden (Wissens-Check / Challenge / Wiederholung)
     for (const key of ['check', 'challenge', 'replay']) {
@@ -96,11 +104,9 @@ window.MM = window.MM || {};
       stateHtml = '<div class="level-state state-new">✨ ' + t('home.startNew') + '</div>';
     }
 
-    return '<button class="level-tile" id="tile-l' + lvl + '">' +
-      '<span class="level-badge l' + lvl + '">L' + lvl + '</span>' +
+    return '<button class="level-tile lt' + lvl + '" id="tile-l' + lvl + '">' +
       '<span class="level-info">' +
       '<span class="level-name">' + t('level.' + lvl) + '</span>' +
-      '<span class="level-sub" style="display:block">' + t('level.sub.' + lvl) + '</span>' +
       stateHtml + extra +
       '</span><span class="level-arrow">›</span></button>';
   }

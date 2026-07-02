@@ -634,6 +634,12 @@ window.MM = window.MM || {};
     'ach.rank-10.n': 'Legenda', 'ach.rank-10.d': 'Osiągnij rangę 10: Wall-Street-Legende.'
   };
 
+  // Nachträge (Design-Iteration 07/2026): Jahr-Granularität + Steckbrief-Fragetyp
+  Object.assign(de, { 'stats.year': 'Jahr', 'qtype.profile': 'Steckbrief' });
+  Object.assign(en, { 'stats.year': 'Year', 'qtype.profile': 'Profile' });
+  Object.assign(ro, { 'stats.year': 'An', 'qtype.profile': 'Profil' });
+  Object.assign(pl, { 'stats.year': 'Rok', 'qtype.profile': 'Profil' });
+
   MM.I18N = { de, en, ro, pl };
   MM.LANGS = [
     { code: 'de', label: 'Deutsch' },

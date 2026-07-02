@@ -21,6 +21,14 @@ window.MM = window.MM || {};
     // Antwortzeit zählt (relevant beim Fortsetzen einer Runde)
     const state = MM.engine.resumeState(curKey);
     if (!state) { MM.go('home'); return; }
+    // Sicherheitsnetz: Runde referenziert Fragen, die es nach einem
+    // Pool-Update nicht mehr gibt → Runde verwerfen statt abzustürzen
+    if (state.qIds.some(id => !MM.qById.has(id))) {
+      delete MM.Store.data.inProgress[curKey];
+      MM.Store.save();
+      MM.go('home');
+      return;
+    }
     if (state.idx >= state.qIds.length) {
       // Sollte nicht vorkommen – Sicherheitsnetz: Runde sauber abschließen
       const result = MM.engine.finishRound(state);
@@ -60,10 +68,6 @@ window.MM = window.MM || {};
       '<span class="q-type-tag">' + t('qtype.' + q.type) + '</span>' +
       (q.asOf ? '<span class="q-asof">' + t('quiz.asOf', { date: U.fmtAsOf(q.asOf) }) + '</span>' : '') +
       '<div class="q-text">' + U.esc(q.q) + '</div>' +
-      (q.type === 'img' && q.v
-        ? '<div class="q-visual"><span class="q-visual-icon">' + q.v.i + '</span>' +
-          '<span class="q-visual-cap">' + U.esc(q.v.cap) + '</span></div>'
-        : '') +
       '</div>';
 
     html += '<div class="answers">';

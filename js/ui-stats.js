@@ -10,7 +10,7 @@ window.MM = window.MM || {};
   const t = (k, p) => MM.t(k, p);
   const ui = MM.ui;
 
-  let granularity = 'day';
+  let granularity = 'week';
 
   MM.views.stats = function () {
     const data = MM.Store.data;
@@ -20,7 +20,7 @@ window.MM = window.MM || {};
     let html = ui.topbar() + '<div class="page">' +
       '<div class="page-title glow">' + t('stats.title') + '</div>' +
       '<div class="seg-control">' +
-      [['day', 'stats.day'], ['week', 'stats.week'], ['month', 'stats.month']].map(g =>
+      [['week', 'stats.week'], ['month', 'stats.month'], ['year', 'stats.year']].map(g =>
         '<button class="seg-btn' + (granularity === g[0] ? ' active' : '') + '" data-gran="' + g[0] + '">' +
         t(g[1]) + '</button>'
       ).join('') + '</div>';
@@ -46,7 +46,7 @@ window.MM = window.MM || {};
       statTile('🔥 ' + stats.bestAnswerStreak, t('stats.bestStreak')) +
       '</div>';
 
-    html += '<p class="small muted" style="margin-top:12px">' + t('stats.note') + '</p></div>';
+    html += '</div>';
 
     ui.mount(html, { active: 'stats' });
 

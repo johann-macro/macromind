@@ -50,17 +50,18 @@ window.MM = window.MM || {};
       tile(stats.hitrate + '%', t('profile.hitrate')) +
       tile(stats.correctDaily, t('profile.correct')) +
       tile('🔥 ' + stats.dayStreak, t('profile.dayStreak')) +
-      '</div>' +
-      '<p class="small muted" style="margin-top:8px">' + t('profile.statsNote') + '</p>';
+      '</div>';
 
     // Alle Ränge
     html += '<div class="section-label">' + t('profile.ranks') + '</div>';
     html += MM.RANKS.map(rk => {
       const reached = stats.correctDaily >= rk.min;
       const current = rk.n === rank.n;
+      // Farbklasse IMMER anwenden – gesperrte Ränge zeigen Farbe/Animation
+      // gedämpft durch .locked (Graustufen + Transparenz), ohne Emojis
       return '<div class="rank-row' + (reached ? '' : ' locked') + (current ? ' current' : '') + '">' +
         '<span class="rank-num">' + (reached ? rk.n : '🔒') + '</span>' +
-        '<span class="rank-name ' + (reached ? rk.cls : '') + '">' + rk.icon + ' ' + U.esc(rk.name) + '</span>' +
+        '<span class="rank-name ' + rk.cls + '">' + U.esc(rk.name) + '</span>' +
         '<span class="rank-req">' + t('profile.correctLabel', { n: rk.min }) + '</span>' +
         '</div>';
     }).join('');

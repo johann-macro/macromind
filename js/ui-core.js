@@ -38,11 +38,13 @@ window.MM = window.MM || {};
   };
 
   ui.topbar = function () {
+    // Profil/Einstellungen als Umschalter: erneutes Antippen führt zurück
+    // zur vorherigen Ansicht (Logik in app.js, data-toggle-view)
     return '<div class="topbar">' +
       '<div class="brand">' + ui.logoMark('brand-mark') + '<span class="brand-text">MacroMind</span></div>' +
       '<div class="topbar-actions">' +
-      '<button class="icon-btn" data-go="profile" aria-label="' + t('nav.profile') + '">👤</button>' +
-      '<button class="icon-btn" data-go="settings" aria-label="' + t('set.title') + '">⚙️</button>' +
+      '<button class="icon-btn" data-toggle-view="profile" aria-label="' + t('nav.profile') + '">👤</button>' +
+      '<button class="icon-btn" data-toggle-view="settings" aria-label="' + t('set.title') + '">⚙️</button>' +
       '</div></div>';
   };
 
@@ -50,8 +52,7 @@ window.MM = window.MM || {};
     const items = [
       { id: 'home', ico: '🏠', label: t('nav.home') },
       { id: 'history', ico: '🕘', label: t('nav.history') },
-      { id: 'stats', ico: '📈', label: t('nav.stats') },
-      { id: 'profile', ico: '👤', label: t('nav.profile') }
+      { id: 'stats', ico: '📈', label: t('nav.stats') }
     ];
     return '<nav class="bottom-nav"><div class="bottom-nav-inner">' +
       items.map(i =>
@@ -118,7 +119,7 @@ window.MM = window.MM || {};
   // ---------- Rang-Badge ----------
   ui.rankBadge = function (rank, big) {
     return '<span class="rank-badge ' + rank.cls + (big ? ' big' : '') + '">' +
-      '<span>' + rank.icon + '</span><span>' + U.esc(rank.name) + '</span></span>';
+      '<span>' + U.esc(rank.name) + '</span></span>';
   };
 
   ui.scoreClass = function (score, total) {

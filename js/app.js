@@ -10,17 +10,35 @@ window.MM = window.MM || {};
   'use strict';
 
   let currentView = null;
+  let currentArg = null;
+  // Merkt sich pro Overlay-View (Profil/Einstellungen), von wo sie geöffnet wurde
+  const returnTo = { profile: null, settings: null };
 
   /** Zentrale Navigation */
   MM.go = function (view, arg) {
     const fn = MM.views[view];
     if (!fn) { console.error('Unbekannte View:', view); return; }
     currentView = view;
+    currentArg = arg;
     fn(arg);
   };
 
-  // Delegierte Navigation für einfache data-go-Buttons
+  // Delegierte Navigation. Profil/Einstellungen (Topbar) wirken als Umschalter:
+  // erneutes Antippen führt zurück zur Ansicht, von der aus geöffnet wurde.
   document.addEventListener('click', e => {
+    const tgl = e.target.closest('[data-toggle-view]');
+    if (tgl) {
+      const v = tgl.getAttribute('data-toggle-view');
+      if (currentView === v) {
+        const ret = returnTo[v];
+        if (ret && ret.view && ret.view !== v && MM.views[ret.view]) MM.go(ret.view, ret.arg);
+        else MM.go('home');
+      } else {
+        returnTo[v] = { view: currentView, arg: currentArg };
+        MM.go(v);
+      }
+      return;
+    }
     const el = e.target.closest('[data-go]');
     if (el) MM.go(el.getAttribute('data-go'));
   });

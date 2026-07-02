@@ -33,8 +33,9 @@ window.MM = window.MM || {};
 
   /**
    * Zieht 10 Fragen für ein Level aus der Rotation.
-   * Tagesmix-Pflicht: mind. 1 Bild-, 1 Schätz-, 1 Definitions-, 1 Konzeptfrage
+   * Tagesmix-Pflicht: mind. 1 Schätz-, 1 Definitions-, 1 Konzeptfrage
    * (sofern in der verbleibenden Rotation vorhanden).
+   * Steckbrief-Fragen ('profile') sind bewusst selten: höchstens 1 pro Set.
    */
   function drawDailySet(data, level) {
     const all = idsForLevel(level);
@@ -48,10 +49,19 @@ window.MM = window.MM || {};
     }
 
     const picked = [];
-    for (const type of ['img', 'est', 'def', 'concept']) {
+    for (const type of ['est', 'def', 'concept']) {
       const idx = rot.findIndex(id => MM.qById.get(id).type === type && picked.indexOf(id) === -1);
       if (idx >= 0) picked.push(rot[idx]);
     }
+    for (const id of rot) {
+      if (picked.length >= 10) break;
+      if (picked.indexOf(id) !== -1) continue;
+      // Steckbrief-Fragen: höchstens eine pro Tages-Set
+      if (MM.qById.get(id).type === 'profile' &&
+          picked.some(p => MM.qById.get(p).type === 'profile')) continue;
+      picked.push(id);
+    }
+    // Sicherheitsnetz: falls der Filter zu wenige übrig lässt, ohne Cap auffüllen
     for (const id of rot) {
       if (picked.length >= 10) break;
       if (picked.indexOf(id) === -1) picked.push(id);

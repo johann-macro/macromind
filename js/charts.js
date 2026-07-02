@@ -33,6 +33,11 @@ window.MM = window.MM || {};
         }
       }
       while (list.length > 10) list.shift();
+    } else if (granularity === 'year') {
+      const y = U.keyParts(t).y;
+      for (let i = 3; i >= 0; i--) {
+        list.push({ key: String(y - i), label: String(y - i) });
+      }
     } else {
       const months = MM.monthsShort();
       const p = U.keyParts(t);
@@ -49,6 +54,7 @@ window.MM = window.MM || {};
   function periodOf(dateKey, granularity) {
     if (granularity === 'day') return dateKey;
     if (granularity === 'week') return U.weekKey(dateKey);
+    if (granularity === 'year') return dateKey.slice(0, 4);
     return U.monthKey(dateKey);
   }
 
