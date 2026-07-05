@@ -546,6 +546,24 @@ body.theme-light .level-tile.lt3 .level-name { color: #d97706; text-shadow: none
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 .chart-empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 40px 20px; }
 
+/* Themen-Analyse (Trefferquote je Themengebiet) */
+.topic-row {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 10px;
+}
+.topic-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.topic-name { font-weight: 700; font-size: 0.9rem; }
+.topic-meta { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+.topic-meta b { font-size: 0.85rem; }
+.tp-good { color: var(--good); }
+.tp-mid { color: var(--warn); }
+.tp-bad { color: var(--bad); }
+.topic-bar { height: 7px; border-radius: 4px; background: var(--border); margin-top: 8px; overflow: hidden; }
+.topic-bar > div { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+.tb-good { background: var(--good); }
+.tb-mid { background: var(--warn); }
+.tb-bad { background: var(--bad); }
+
 /* ---------- Settings ---------- */
 .setting-row {
   display: flex; align-items: center; gap: 12px; width: 100%;

@@ -181,36 +181,64 @@ window.MM = window.MM || {};
     return { state: st, resumed: false };
   }
 
+  /**
+   * Spaced-Repetition-Auswahl für den Wissens-Check (pro Profil, abgeleitet
+   * aus data.rounds – der Historie des eingeloggten Nutzers).
+   * Priorität je Frage:
+   *   +4  wenn die LETZTE Antwort falsch war (dringend wiederholen)
+   *   +0–2 historische Fehlerquote (öfter falsch = öfter wiederholen)
+   *   +0–2 Zeit seit der letzten Begegnung (Spacing: lange her = fällig)
+   *   +0–0,5 Zufall (Abwechslung)
+   * Antworten aus ALLEN Modi zählen als Lernsignal (auch Wissens-Check:
+   * wer eine Frage dort richtig wiederholt hat, bekommt sie seltener).
+   * Tages-Streuung bleibt als Zweitkriterium erhalten.
+   */
   function buildCheckPool(data) {
-    // letzte Antwort je Frage aus regulären Tagesrunden
-    const map = new Map();
+    const tKey = today();
+    // Lernstand je Frage aus der kompletten Historie ableiten
+    // (rounds ist chronologisch → der letzte Eintrag gewinnt bei lastKey/lastCorrect)
+    const learn = new Map(); // qid -> { right, wrong, lastKey, lastCorrect }
     for (const r of data.rounds) {
-      if (r.type !== 'daily') continue;
       for (const a of r.answers) {
-        if (MM.qById.has(a.q)) map.set(a.q, { correct: a.correct, dateKey: r.dateKey });
+        if (!MM.qById.has(a.q)) continue;
+        let s = learn.get(a.q);
+        if (!s) { s = { right: 0, wrong: 0, lastKey: r.dateKey, lastCorrect: a.correct }; learn.set(a.q, s); }
+        if (a.correct) s.right++; else s.wrong++;
+        s.lastKey = r.dateKey;
+        s.lastCorrect = a.correct;
       }
     }
-    let entries = [...map.entries()].map(([qid, info]) => ({ qid, info }));
+
+    let entries = [...learn.entries()].map(([qid, s]) => {
+      const days = Math.max(0, U.daysBetween(s.lastKey, tKey));
+      const errorRate = s.wrong / (s.wrong + s.right);
+      let score = 2 * errorRate + Math.min(days / 7, 2) + Math.random() * 0.5;
+      if (!s.lastCorrect) score += 4;
+      // Heute bereits gesehenes Material dämpfen (kein Doppel-Drill am selben
+      // Tag) – heutige FEHLER bleiben durch das +4 trotzdem klar vorn
+      if (days < 1) score -= 3;
+      return { qid, info: { correct: s.lastCorrect, dateKey: s.lastKey }, score: score };
+    });
+
     // Zeitgebundene Fragen weitgehend ausschließen (lieber zu wenige als zu viele)
     const evergreen = entries.filter(e => !MM.qById.get(e.qid).asOf);
     if (evergreen.length >= 10) entries = evergreen;
 
-    // Gruppieren nach Tag, dann round-robin: möglichst 1 Frage pro Tag
-    const byDay = new Map();
-    for (const e of entries) {
-      if (!byDay.has(e.info.dateKey)) byDay.set(e.info.dateKey, []);
-      byDay.get(e.info.dateKey).push(e);
-    }
-    const dayLists = U.shuffle([...byDay.values()].map(l => U.shuffle(l)));
+    entries.sort((a, b) => b.score - a.score);
+
+    // 1. Durchgang: höchste Priorität, aber möglichst verschiedene Tage;
+    // 2. Durchgang: verbleibende Plätze rein nach Priorität auffüllen
     const picked = [];
-    let added = true;
-    while (picked.length < 10 && added) {
-      added = false;
-      for (const list of dayLists) {
-        if (picked.length >= 10) break;
-        const item = list.shift();
-        if (item) { picked.push(item); added = true; }
-      }
+    const usedDays = new Set();
+    for (const e of entries) {
+      if (picked.length >= 10) break;
+      if (usedDays.has(e.info.dateKey)) continue;
+      usedDays.add(e.info.dateKey);
+      picked.push(e);
+    }
+    for (const e of entries) {
+      if (picked.length >= 10) break;
+      if (picked.indexOf(e) === -1) picked.push(e);
     }
     return picked;
   }
@@ -481,6 +509,35 @@ window.MM = window.MM || {};
     };
   }
 
+  /**
+   * Trefferquote je Themengebiet (pro Profil, nur reguläre Tagesrunden –
+   * konsistent mit Profil-Statistik und Fortschritts-Chart).
+   * Ergebnis absteigend nach Quote sortiert (Stärken oben, Schwächen unten).
+   */
+  function computeTopicStats(data) {
+    const agg = new Map(); // topic -> { answered, correct }
+    for (const r of data.rounds) {
+      if (r.type !== 'daily') continue;
+      for (const a of r.answers) {
+        const q = MM.qById.get(a.q);
+        if (!q) continue;
+        const topic = q.topic || 'other';
+        let s = agg.get(topic);
+        if (!s) { s = { answered: 0, correct: 0 }; agg.set(topic, s); }
+        s.answered++;
+        if (a.correct) s.correct++;
+      }
+    }
+    return [...agg.entries()]
+      .map(([topic, s]) => ({
+        topic: topic,
+        answered: s.answered,
+        correct: s.correct,
+        pct: Math.round(100 * s.correct / s.answered)
+      }))
+      .sort((a, b) => b.pct - a.pct || b.answered - a.answered);
+  }
+
   /** Neue Achievements freischalten; gibt Liste der neuen IDs zurück */
   function evaluateAchievements(data) {
     const stats = computeStats(data);
@@ -501,7 +558,7 @@ window.MM = window.MM || {};
     completedDailyToday, todayDailyRound, canCheck,
     answer, advance, finishRound,
     encodeChallenge, decodeChallenge,
-    computeStats, evaluateAchievements,
+    computeStats, computeTopicStats, evaluateAchievements,
     progressKey
   };
 })();

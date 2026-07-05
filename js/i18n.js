@@ -640,6 +640,44 @@ window.MM = window.MM || {};
   Object.assign(ro, { 'stats.year': 'An', 'qtype.profile': 'Profil' });
   Object.assign(pl, { 'stats.year': 'Rok', 'qtype.profile': 'Profil' });
 
+  // Nachträge: Themen-Analyse + Spaced-Repetition-Wissens-Check
+  Object.assign(de, {
+    'stats.topics': 'Trefferquote nach Thema',
+    'stats.nQuestions': '{n} Fragen', 'stats.nQuestion1': '1 Frage',
+    'home.checkSub': 'Wiederholt gezielt deine schwächsten Fragen',
+    'topic.macro': 'Makroökonomie', 'topic.micro': 'Mikroökonomie & Alltag',
+    'topic.markets': 'Finanzmärkte & Investieren', 'topic.business': 'Unternehmen',
+    'topic.politics': 'Politik', 'topic.eu': 'Europäische Union',
+    'topic.geo': 'Geopolitik & Welt', 'topic.tech': 'Technologie & KI'
+  });
+  Object.assign(en, {
+    'stats.topics': 'Accuracy by topic',
+    'stats.nQuestions': '{n} questions', 'stats.nQuestion1': '1 question',
+    'home.checkSub': 'Targets your weakest questions',
+    'topic.macro': 'Macroeconomics', 'topic.micro': 'Microeconomics & everyday life',
+    'topic.markets': 'Financial markets & investing', 'topic.business': 'Business',
+    'topic.politics': 'Politics', 'topic.eu': 'European Union',
+    'topic.geo': 'Geopolitics & world', 'topic.tech': 'Tech & AI'
+  });
+  Object.assign(ro, {
+    'stats.topics': 'Precizie pe teme',
+    'stats.nQuestions': '{n} întrebări', 'stats.nQuestion1': 'o întrebare',
+    'home.checkSub': 'Repetă țintit întrebările tale cele mai slabe',
+    'topic.macro': 'Macroeconomie', 'topic.micro': 'Microeconomie & viața de zi cu zi',
+    'topic.markets': 'Piețe financiare & investiții', 'topic.business': 'Companii',
+    'topic.politics': 'Politică', 'topic.eu': 'Uniunea Europeană',
+    'topic.geo': 'Geopolitică & lume', 'topic.tech': 'Tehnologie & IA'
+  });
+  Object.assign(pl, {
+    'stats.topics': 'Skuteczność wg tematu',
+    'stats.nQuestions': '{n} pytań', 'stats.nQuestion1': '1 pytanie',
+    'home.checkSub': 'Powtarza celowo twoje najsłabsze pytania',
+    'topic.macro': 'Makroekonomia', 'topic.micro': 'Mikroekonomia i codzienność',
+    'topic.markets': 'Rynki finansowe i inwestowanie', 'topic.business': 'Firmy',
+    'topic.politics': 'Polityka', 'topic.eu': 'Unia Europejska',
+    'topic.geo': 'Geopolityka i świat', 'topic.tech': 'Technologia i AI'
+  });
+
   MM.I18N = { de, en, ro, pl };
   MM.LANGS = [
     { code: 'de', label: 'Deutsch' },

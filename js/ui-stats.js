@@ -46,6 +46,24 @@ window.MM = window.MM || {};
       statTile('🔥 ' + stats.bestAnswerStreak, t('stats.bestStreak')) +
       '</div>';
 
+    // Themen-Analyse: Trefferquote je Themengebiet (pro Profil)
+    const topics = MM.engine.computeTopicStats(data);
+    if (topics.length > 0) {
+      html += '<div class="section-label">' + t('stats.topics') + '</div>';
+      html += topics.map(tp => {
+        const cls = ui.scoreClass(tp.correct, tp.answered);
+        return '<div class="topic-row">' +
+          '<div class="topic-head">' +
+          '<span class="topic-name">' + topicLabel(tp.topic) + '</span>' +
+          '<span class="topic-meta">' +
+          (tp.answered === 1 ? t('stats.nQuestion1') : t('stats.nQuestions', { n: tp.answered })) +
+          ' · <b class="tp-' + cls + '">' + tp.pct + '%</b></span>' +
+          '</div>' +
+          '<div class="topic-bar"><div class="tb-' + cls + '" style="width:' + tp.pct + '%"></div></div>' +
+          '</div>';
+      }).join('');
+    }
+
     html += '</div>';
 
     ui.mount(html, { active: 'stats' });
@@ -61,5 +79,12 @@ window.MM = window.MM || {};
   function statTile(val, label) {
     return '<div class="stat-tile"><div class="st-val">' + val + '</div>' +
       '<div class="st-label">' + label + '</div></div>';
+  }
+
+  /** Übersetztes Themen-Label; unbekannte Topics erscheinen als Rohwert */
+  function topicLabel(topic) {
+    const key = 'topic.' + topic;
+    const s = t(key);
+    return s === key ? topic : s;
   }
 })();
