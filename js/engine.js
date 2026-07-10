@@ -538,6 +538,34 @@ window.MM = window.MM || {};
       .sort((a, b) => b.pct - a.pct || b.answered - a.answered);
   }
 
+  /**
+   * Fragen-Vorrat pro Level (pro Profil): Wie viele Fragen hat der Nutzer
+   * noch NIE beantwortet? Abgeleitet aus data.rounds (Quelle der Wahrheit,
+   * unabhängig von der Rotationsliste). days = volle Tage mit komplett
+   * neuen 10er-Sets. minDays = Engpass über alle Level.
+   */
+  function computePoolStatus(data) {
+    const seen = { 1: new Set(), 2: new Set(), 3: new Set() };
+    for (const r of data.rounds) {
+      if (r.type !== 'daily') continue;
+      if (!seen[r.level]) continue;
+      for (const a of r.answers) seen[r.level].add(a.q);
+    }
+    const status = { levels: {}, minDays: Infinity };
+    for (const lvl of [1, 2, 3]) {
+      const total = idsForLevel(lvl).length;
+      let seenCount = 0;
+      for (const id of seen[lvl]) {
+        if (MM.qById.has(id)) seenCount++;
+      }
+      const fresh = Math.max(0, total - seenCount);
+      const days = Math.floor(fresh / 10);
+      status.levels[lvl] = { total: total, fresh: fresh, days: days };
+      if (days < status.minDays) status.minDays = days;
+    }
+    return status;
+  }
+
   /** Neue Achievements freischalten; gibt Liste der neuen IDs zurück */
   function evaluateAchievements(data) {
     const stats = computeStats(data);
@@ -558,7 +586,7 @@ window.MM = window.MM || {};
     completedDailyToday, todayDailyRound, canCheck,
     answer, advance, finishRound,
     encodeChallenge, decodeChallenge,
-    computeStats, computeTopicStats, evaluateAchievements,
+    computeStats, computeTopicStats, computePoolStatus, evaluateAchievements,
     progressKey
   };
 })();

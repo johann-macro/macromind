@@ -1,8 +1,8 @@
 # MacroMind
 
 Tägliches Wissens-Quiz zu Wirtschaft, Politik, Finanzmärkten, Geopolitik und Technologie/KI.
-**504 Fragen** in 3 Schwierigkeitsstufen, Rang-System, 28 Achievements, Tages-Streaks,
-Fortschritts-Charts, Wissens-Check und Freunde-Challenges per Code.
+**1008 Fragen** in 3 Schwierigkeitsstufen, Rang-System, 28 Achievements, Tages-Streaks,
+Fortschritts-Charts, Wissens-Check mit Spaced Repetition und Freunde-Challenges per Code.
 
 **Live:** https://johann-macro.github.io/macromind/ (Updates: einfach `git push` – GitHub Pages baut automatisch)
 
@@ -50,7 +50,7 @@ js/i18n.js              UI-Übersetzungen: Deutsch, Englisch, Rumänisch, Polnis
 js/badwords.js          Namensfilter inkl. Leetspeak-Normalisierung
 js/ranks.js             10 Ränge mit Schwellenwerten
 js/achievements.js      28 Erfolge
-js/data/questions-l*.js Fragenpool (3 × 168 Fragen, Basis + Erweiterung B)
+js/data/questions-l*.js Fragenpool (3 × 336 Fragen: Basis + Erweiterungen B und C)
 js/store.js             Konten, Persistenz, Sync-Codes
 js/engine.js            Spiellogik: Tagesauswahl, Runden-Zustandsmaschine,
                         zentrale finishRound(), Challenge-Codes, Statistik

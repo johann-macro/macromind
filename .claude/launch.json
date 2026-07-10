@@ -6,6 +6,18 @@
       "runtimeExecutable": "powershell",
       "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "tools\\serve.ps1"],
       "port": 8123
+    },
+    {
+      "name": "learning-tracker",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$env:Path='C:\\Program Files\\nodejs;'+$env:Path; Set-Location 'C:\\Users\\Johann\\MacroMind - Claude Code Projekt 1\\lernsession-tracker'; npm run dev -- --port 5173 --strictPort"
+      ],
+      "port": 5173
     }
   ]
 }

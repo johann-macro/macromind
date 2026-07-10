@@ -19,3 +19,6 @@ node_modules/
 
 # Projektfremde Dateien, die zufällig im Ordner liegen (nicht Teil der App)
 youtube-dl/
+
+# Separates Unterprojekt (eigenes Repo/eigene Verwaltung, nicht mit deployen)
+lernsession-tracker/

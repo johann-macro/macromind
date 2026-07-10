@@ -71,6 +71,23 @@ window.MM = window.MM || {};
       '<span class="set-info"><span class="set-title" style="color:var(--bad)">' + t('set.deleteAll') + '</span>' +
       '<span class="set-sub">' + t('set.deleteAllSub') + '</span></span></button>';
 
+    // Fragen-Vorrat (pro Profil): Frühwarnung, bevor sich Fragen wiederholen
+    const pool = MM.engine.computePoolStatus(data);
+    let poolIco, poolTitle, poolCls;
+    if (pool.minDays <= 0) {
+      poolIco = '🔴'; poolTitle = t('set.poolEmpty'); poolCls = 'tp-bad';
+    } else if (pool.minDays === 1) {
+      poolIco = '🟡'; poolTitle = t('set.poolWarn'); poolCls = 'tp-mid';
+    } else {
+      poolIco = '🟢'; poolTitle = t('set.poolOk', { n: pool.minDays }); poolCls = 'tp-good';
+    }
+    html += '<div class="section-label">' + t('set.pool') + '</div>' +
+      '<div class="setting-row"><span class="set-ico">' + poolIco + '</span>' +
+      '<span class="set-info"><span class="set-title ' + poolCls + '">' + poolTitle + '</span>' +
+      '<span class="set-sub">' + t('set.poolDetail', {
+        a: pool.levels[1].days, b: pool.levels[2].days, c: pool.levels[3].days
+      }) + '</span></span></div>';
+
     html += '</div>';
     ui.mount(html, { active: null });
 

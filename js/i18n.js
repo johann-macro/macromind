@@ -640,6 +640,36 @@ window.MM = window.MM || {};
   Object.assign(ro, { 'stats.year': 'An', 'qtype.profile': 'Profil' });
   Object.assign(pl, { 'stats.year': 'Rok', 'qtype.profile': 'Profil' });
 
+  // Nachträge: Fragen-Vorrats-Anzeige (Einstellungen, ganz unten)
+  Object.assign(de, {
+    'set.pool': 'Fragen-Vorrat',
+    'set.poolOk': 'Noch ca. {n} Tage komplett neue Fragen',
+    'set.poolWarn': 'Achtung: Ab morgen wiederholen sich Fragen – warte auf das nächste Fragen-Update!',
+    'set.poolEmpty': 'Fragenpool durchgespielt – Fragen wiederholen sich. Warte auf Update!',
+    'set.poolDetail': 'Neue Fragen übrig (in Tagen) – Level 1: {a} · Level 2: {b} · Level 3: {c}'
+  });
+  Object.assign(en, {
+    'set.pool': 'Question supply',
+    'set.poolOk': 'About {n} more days of completely new questions',
+    'set.poolWarn': 'Heads up: from tomorrow questions will repeat – wait for the next question update!',
+    'set.poolEmpty': 'Question pool exhausted – questions are repeating. Wait for an update!',
+    'set.poolDetail': 'Fresh questions left (in days) – Level 1: {a} · Level 2: {b} · Level 3: {c}'
+  });
+  Object.assign(ro, {
+    'set.pool': 'Rezerva de întrebări',
+    'set.poolOk': 'Încă aprox. {n} zile de întrebări complet noi',
+    'set.poolWarn': 'Atenție: de mâine întrebările se vor repeta – așteaptă următorul update de întrebări!',
+    'set.poolEmpty': 'Rezerva de întrebări epuizată – întrebările se repetă. Așteaptă un update!',
+    'set.poolDetail': 'Întrebări noi rămase (în zile) – Nivel 1: {a} · Nivel 2: {b} · Nivel 3: {c}'
+  });
+  Object.assign(pl, {
+    'set.pool': 'Zapas pytań',
+    'set.poolOk': 'Jeszcze ok. {n} dni zupełnie nowych pytań',
+    'set.poolWarn': 'Uwaga: od jutra pytania będą się powtarzać – czekaj na kolejną aktualizację pytań!',
+    'set.poolEmpty': 'Pula pytań wyczerpana – pytania się powtarzają. Czekaj na aktualizację!',
+    'set.poolDetail': 'Pozostałe nowe pytania (w dniach) – Poziom 1: {a} · Poziom 2: {b} · Poziom 3: {c}'
+  });
+
   // Nachträge: Themen-Analyse + Spaced-Repetition-Wissens-Check
   Object.assign(de, {
     'stats.topics': 'Trefferquote nach Thema',
